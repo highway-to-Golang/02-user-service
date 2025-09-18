@@ -1,10 +1,10 @@
 package repository
 
 import (
-	"fmt"
 	"log/slog"
 
-	"user-service/internal/domain"
+	"github.com/highway-to-Golang/02-user-service/internal/domain"
+	"github.com/highway-to-Golang/02-user-service/internal/errors"
 )
 
 type MockUserRepo struct{}
@@ -20,7 +20,7 @@ func (r *MockUserRepo) Save(user domain.User) error {
 
 func (r *MockUserRepo) FindByID(id string) (domain.User, error) {
 	slog.Info("MockUserRepo.FindByID called", "userID", id)
-	return domain.User{}, fmt.Errorf("user with ID %s not found", id)
+	return domain.User{}, errors.ErrorWithID(errors.ErrUserNotFound, id)
 }
 
 func (r *MockUserRepo) FindAll() []domain.User {
@@ -30,5 +30,5 @@ func (r *MockUserRepo) FindAll() []domain.User {
 
 func (r *MockUserRepo) DeleteByID(id string) error {
 	slog.Info("MockUserRepo.DeleteByID called", "userID", id)
-	return fmt.Errorf("user with ID %s not found", id)
+	return errors.ErrorWithID(errors.ErrUserNotFound, id)
 }

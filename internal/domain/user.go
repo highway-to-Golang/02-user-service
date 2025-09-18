@@ -4,6 +4,7 @@ import (
 	"slices"
 	"time"
 
+	"github.com/highway-to-Golang/02-user-service/internal/errors"
 	"github.com/google/uuid"
 )
 
@@ -15,14 +16,18 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func NewUser(name, email, role string) User {
+func NewUser(name, email, role string) (User, error) {
+	id, err := uuid.NewV7()
+	if err != nil {
+		return User{}, errors.ErrFailedToBuild
+	}
 	return User{
-		ID:        uuid.New().String(),
+		ID:        id.String(),
 		Name:      name,
 		Email:     email,
 		Role:      role,
 		CreatedAt: time.Now(),
-	}
+	}, nil
 }
 
 func ValidRoles() []string {

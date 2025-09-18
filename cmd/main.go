@@ -3,12 +3,11 @@ package main
 import (
 	"log/slog"
 
-	"user-service/internal/repository"
-	"user-service/internal/service"
+	"github.com/highway-to-Golang/02-user-service/internal/repository"
+	"github.com/highway-to-Golang/02-user-service/internal/service"
 )
 
 func main() {
-
 	slog.Info("--- Using InMemoryUserRepo ---")
 	demonstrateUserService(repository.NewInMemoryUserRepo())
 
@@ -16,7 +15,7 @@ func main() {
 	demonstrateUserService(repository.NewMockUserRepo())
 }
 
-func demonstrateUserService(userRepo repository.UserRepository) {
+func demonstrateUserService(userRepo service.UserRepository) {
 	userService := service.NewUserService(userRepo)
 
 	user1, err := userService.CreateUser("John Doe", "john@example.com", "admin")

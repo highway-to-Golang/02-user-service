@@ -1,9 +1,8 @@
 package repository
 
 import (
-	"fmt"
-
-	"user-service/internal/domain"
+	"github.com/highway-to-Golang/02-user-service/internal/domain"
+	"github.com/highway-to-Golang/02-user-service/internal/errors"
 )
 
 type InMemoryUserRepo struct {
@@ -24,7 +23,7 @@ func (r *InMemoryUserRepo) Save(user domain.User) error {
 func (r *InMemoryUserRepo) FindByID(id string) (domain.User, error) {
 	user, ok := r.users[id]
 	if !ok {
-		return domain.User{}, fmt.Errorf("user with ID %s not found", id)
+		return domain.User{}, errors.ErrorWithID(errors.ErrUserNotFound, id)
 	}
 
 	return user, nil
@@ -41,7 +40,7 @@ func (r *InMemoryUserRepo) FindAll() []domain.User {
 
 func (r *InMemoryUserRepo) DeleteByID(id string) error {
 	if _, ok := r.users[id]; !ok {
-		return fmt.Errorf("user with ID %s not found", id)
+		return errors.ErrorWithID(errors.ErrUserNotFound, id)
 	}
 
 	delete(r.users, id)
